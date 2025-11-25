@@ -1,0 +1,1 @@
+print("snoopy >> anything else")
