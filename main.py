@@ -57,3 +57,4 @@ def registro_empleado(empleados):
 
     return empleados, nuevo_registro
           # devuelve el diccionario actualizado con el registro creado
+
