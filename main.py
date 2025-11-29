@@ -38,19 +38,19 @@ def menu():
         op = input("Elija una opción: ").strip()
 
         if op == "1":
-           # empleados, _ = registro_empleado(empleados)
-        #elif op == "2":
-           # empleados, _ = actualizar_salario(empleados)
-        #elif op == "3":
-           # empleados, _ = registrar_horas(empleados)
-        #elif op == "4":
-           # empleados, _ = calcular_pago(empleados)
-        #elif op == "5":
-            # empleados = reporte_salario_mas_alto(empleados)
-        #elif op == "6":
-            # empleados = reporte_promedio_salarial(empleados)
-        #elif op == "7":
-             # empleados = reporte_empleados_con_horas_extras(empleados)
+           empleados, _ = registro_empleado(empleados)
+        # elif op == "2":
+        #     empleados, _ = actualizar_salario(empleados)
+        # elif op == "3":
+        #     empleados, _ = registrar_horas(empleados)
+        # elif op == "4":
+        #     empleados, _ = calcular_pago(empleados)
+        # elif op == "5":
+        #     _ = reporte_salario_mas_alto(empleados)
+        # elif op == "6":
+        #     _ = reporte_promedio_salarial(empleados)
+        # elif op == "7":
+        #     _ = reporte_empleados_con_horas_extras(empleados)
         elif op == "0":
             print("Saliendo...")
             break
