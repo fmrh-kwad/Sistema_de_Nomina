@@ -37,6 +37,8 @@ def menu():
             print(f"{k}. {v}")
         op = input("Elija una opción: ").strip()
 
+        ## frank: todas estas funciones no estan hechas, excepto la de registrar empleado
+        ## ponganse a trabajarle coño
         if op == "1":
             empleados, _ = registro_empleado(empleados)
         #elif op == "2":
@@ -107,3 +109,5 @@ def registro_empleado(empleados):
     return empleados, nuevo_registro
           # devuelve el diccionario actualizado con el registro creado
 
+## inicializa el menu
+menu()
