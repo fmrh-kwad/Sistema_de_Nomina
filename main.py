@@ -50,7 +50,7 @@ def menu():
         #elif op == "6":
             # empleados = reporte_promedio_salarial(empleados)
         #elif op == "7":
-            # empleados = reporte_empleados_con_horas_extras(empleados)
+             # empleados = reporte_empleados_con_horas_extras(empleados)
         elif op == "0":
             print("Saliendo...")
             break
