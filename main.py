@@ -40,6 +40,7 @@ def menu():
         ## frank: todas estas funciones no estan hechas, excepto la de registrar empleado
         ## ponganse a trabajarle coño
         if op == "1":
+            ...
            # empleados, _ = registro_empleado(empleados)
         #elif op == "2":
            # empleados, _ = actualizar_salario(empleados)
