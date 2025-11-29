@@ -27,6 +27,7 @@ def menu():
         # "5": "Reporte: salario más alto",
         # "6": "Reporte: promedio salarial",
         # "7": "Reporte: empleados con horas extra",
+        "8": "Exportar datos", #this is an availaible op but it wont work without the other functions de arriba
         "0": "Salir"
     }
 
@@ -51,12 +52,26 @@ def menu():
         #     _ = reporte_promedio_salarial(empleados)
         # elif op == "7":
         #     _ = reporte_empleados_con_horas_extras(empleados)
+        elif op == "8":
+            exportar_datos(empleados)
         elif op == "0":
             print("Saliendo...")
             break
         else:
             print("Opción inválida. Intente nuevamente.")
 
+
+#   ------------------------------------
+
+# requisito extra: exportar datos a archivos
+def exportar_datos(empleados):
+    for id_emp, datos in empleados.items():
+        print(f"{id_emp}: {datos['nombre']} - {datos['salario_hora']} - {datos['horas_trabajadas']}")
+
+    # ni la menor idea de que hace esto o como compronar si funciona
+    # tenemos q terminar el resto de las func para saber pero por ahora no causa problemas.
+
+#   ------------------------------------
 
 
  #L: funcion para evitar que una vez el usuario introduzca un caracter que no sea igual a un numero en
@@ -86,12 +101,22 @@ def registro_empleado(empleados):
         print("Error: Ya existe un empleado con ese ID.")
         return empleados, None   # devuelve diccionario sin cambios --None
 
+    nombre = input("Ingrese el nombre del empleado: ").strip()
+
     if not nombre:
         print("Error: El nombre no puede estar vacío.")
-        return empleados, None
-        #no permite que se registre un empleado sin nombre/datos vacios al presionar 'enter'.
 
-    nombre = input("Ingrese el nombre del empleado: ").strip()
+        return empleados, None
+        # no permite que se registre un empleado sin nombre/datos vacios al presionar 'enter'.
+
+    apellido = input("Ingrese el apellido del empleado: ").strip()
+
+    if not apellido:
+        print("Error: El apellido no puede estar vacío.")
+        return empleados, None
+    # no permite que se registre un empleado sin apellido/datos vacios al presionar 'enter'.
+
+
     salario_hora = solicitar_numero("Ingrese el salario por hora: ")
                    #funcion solicitar numero que no permite caracteres != nums usada.
 
@@ -102,8 +127,12 @@ def registro_empleado(empleados):
     }
 
     empleados[id_emp] = nuevo_registro
-    print(f"Empleado {NEGRITA}{ITALICA}{nombre}{RESET} registrado exitosamente.")
+    print(f"Empleado {NEGRITA}{ITALICA}{nombre} {apellido}{RESET} registrado exitosamente.")
 
     return empleados, nuevo_registro
           # devuelve el diccionario actualizado con el registro creado
 
+
+#corre el menu en la consola
+if __name__ == "__main__":
+    menu()
