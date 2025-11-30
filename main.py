@@ -2,6 +2,18 @@ import os
 
 # GRUPO 3: LYA FERRERAS, FRANK RUIZ, STEVEN CRUZ, MAXIMILIAM NOVOA.
 
+EMPLEADOS = {}
+OPCIONES = {
+        "1": "Registrar empleado",
+        # "2": "Actualizar salario",
+        # "3": "Registrar horas",
+        # "4": "Calcular pago",
+        # "5": "Reporte: salario más alto",
+        # "6": "Reporte: promedio salarial",
+        # "7": "Reporte: EMPLEADOS con horas extra",
+        "8": "Exportar datos", #this is an availaible op but it wont work without the other functions de arriba
+        "0": "Salir"
+    }
 
 # Códigos de colores y formato
 # NOTA: trying this out, might look weird y se puede borrar si fuera necesario y no funcione, es por estetica.
@@ -22,21 +34,7 @@ def clear_terminal():
         os.system('clear')
 
 def menu():
-    EMPLEADOS = {}
-    OPCIONES = {
-        "1": "Registrar empleado",
-        # "2": "Actualizar salario",
-        # "3": "Registrar horas",
-        # "4": "Calcular pago",
-        # "5": "Reporte: salario más alto",
-        # "6": "Reporte: promedio salarial",
-        # "7": "Reporte: EMPLEADOS con horas extra",
-        "8": "Exportar datos", #this is an availaible op but it wont work without the other functions de arriba
-        "0": "Salir"
-    }
-
-    # bucle infinito hasta que se eliga una opcion del menu
-    while True:
+    while True: # bucle infinito hasta que se eliga una opcion del menu
         print("===============================")
         print("Módulo de Nómina Simple")
         print("===============================")    
@@ -47,13 +45,13 @@ def menu():
 
         match selec:
             case "1":
-                EMPLEADOS, _ = registro_empleado(EMPLEADOS)
+                registro_empleado(EMPLEADOS)
             #case "2":
-            #    EMPLEADOS, _ = actualizar_salario(EMPLEADOS)
+            #    actualizar_salario(EMPLEADOS)
             #case "3":
-            #    EMPLEADOS, _ = registrar_horas(EMPLEADOS)
+            #    registrar_horas(EMPLEADOS)
             #case "4": 
-            #    EMPLEADOS, _ = calcular_pago(EMPLEADOS)
+            #    calcular_pago(EMPLEADOS)
             #case "5":
             #    reporte_salario_mas_alto(EMPLEADOS)
             #case "6":
