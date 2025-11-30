@@ -1,7 +1,6 @@
-print("===============================")
-print("Módulo de Nómina Simple")
+import os
+
 # GRUPO 3: LYA FERRERAS, FRANK RUIZ, STEVEN CRUZ, MAXIMILIAM NOVOA.
-print("===============================")
 
 
 # Códigos de colores y formato
@@ -13,67 +12,71 @@ n = 'número'
 
 #   ------------------------------------
 
- # funcion para menu simple
-  #nota: los elif's y textos con "#" no han sido funciones creadas en el programa todavia. una vez creadas
-  # se le quitaran los hashtags.
+# funcion para menu simple
+## usar un case-switch es mas eficiente que saco de elifs 🥀🥀🥀
+
+def clear_terminal():
+    if os.name == 'nt':
+        os.system('cls')
+    else:
+        os.system('clear')
 
 def menu():
-    empleados = {}
-    opciones = {
+    EMPLEADOS = {}
+    OPCIONES = {
         "1": "Registrar empleado",
         # "2": "Actualizar salario",
         # "3": "Registrar horas",
         # "4": "Calcular pago",
         # "5": "Reporte: salario más alto",
         # "6": "Reporte: promedio salarial",
-        # "7": "Reporte: empleados con horas extra",
+        # "7": "Reporte: EMPLEADOS con horas extra",
         "8": "Exportar datos", #this is an availaible op but it wont work without the other functions de arriba
         "0": "Salir"
     }
 
     # bucle infinito hasta que se eliga una opcion del menu
     while True:
+        print("===============================")
+        print("Módulo de Nómina Simple")
+        print("===============================")    
         print("\n=== MENÚ ===")
-        for k, v in opciones.items():
+        for k, v in OPCIONES.items():
             print(f"{k}. {v}")
-        op = input("Elija una opción: ").strip()
+        selec = input("Elija una opción: ").strip()
 
-        ## frank: todas estas funciones no estan hechas, excepto la de registrar empleado
-        ## ponganse a trabajarle coño
-        if op == "1":
-           empleados, _ = registro_empleado(empleados)
-        # elif op == "2":
-        #     empleados, _ = actualizar_salario(empleados)
-        # elif op == "3":
-        #     empleados, _ = registrar_horas(empleados)
-        # elif op == "4":
-        #     empleados, _ = calcular_pago(empleados)
-        # elif op == "5":
-        #     _ = reporte_salario_mas_alto(empleados)
-        # elif op == "6":
-        #     _ = reporte_promedio_salarial(empleados)
-        # elif op == "7":
-        #     _ = reporte_empleados_con_horas_extras(empleados)
-        elif op == "8":
-            exportar_datos(empleados)
-        elif op == "0":
-            print("Saliendo...")
-            break
-        else:
-            print("Opción inválida. Intente nuevamente.")
+        match selec:
+            case "1":
+                EMPLEADOS, _ = registro_empleado(EMPLEADOS)
+            #case "2":
+            #    EMPLEADOS, _ = actualizar_salario(EMPLEADOS)
+            #case "3":
+            #    EMPLEADOS, _ = registrar_horas(EMPLEADOS)
+            #case "4": 
+            #    EMPLEADOS, _ = calcular_pago(EMPLEADOS)
+            #case "5":
+            #    reporte_salario_mas_alto(EMPLEADOS)
+            #case "6":
+            #    reporte_promedio_salarial(EMPLEADOS)
+            #case "7":
+            #    reporte_EMPLEADOS_con_horas_extras(EMPLEADOS)
+            case "8":
+                exportar_datos(EMPLEADOS)
+            case "0":
+                print("Saliendo...")
+                break
+            case "_":
+                print("Opción inválida. Intente nuevamente.")
 
-
-#   ------------------------------------
-
+#------------------------------------#
 # requisito extra: exportar datos a archivos
-def exportar_datos(empleados):
-    for id_emp, datos in empleados.items():
+def exportar_datos(EMPLEADOS):
+    for id_emp, datos in EMPLEADOS.items():
         print(f"{id_emp}: {datos['nombre']} - {datos['salario_hora']} - {datos['horas_trabajadas']}")
 
     # ni la menor idea de que hace esto o como compronar si funciona
     # tenemos q terminar el resto de las func para saber pero por ahora no causa problemas.
-
-#   ------------------------------------
+#------------------------------------#
 
 
  #L: funcion para evitar que una vez el usuario introduzca un caracter que no sea igual a un numero en
@@ -95,27 +98,27 @@ def solicitar_numero(mensaje):
  # L: funcion para registrar a un empleado: si el empleado ya existe (dentro del diccionario)
 # NO permite registrarlo nuevamente y acaba el programa SIN CAMBIOS al diccionario (**None).
 
-def registro_empleado(empleados):
+def registro_empleado(EMPLEADOS):
     print("\n--- REGISTRAR EMPLEADO ---")
-    id_emp = input("Ingrese el ID del empleado: ").strip()
+    id_emp = input("Ingrese el ID del empleado: ").strip() ## esto no revisa si la id esta vacia o no!! por favor arreglar :(
 
-    if id_emp in empleados:
+    if id_emp in EMPLEADOS:
         print("Error: Ya existe un empleado con ese ID.")
-        return empleados, None   # devuelve diccionario sin cambios --None
+        return EMPLEADOS, None   # devuelve diccionario sin cambios --None
 
     nombre = input("Ingrese el nombre del empleado: ").strip()
 
     if not nombre:
         print("Error: El nombre no puede estar vacío.")
 
-        return empleados, None
+        return EMPLEADOS, None
         # no permite que se registre un empleado sin nombre/datos vacios al presionar 'enter'.
 
     apellido = input("Ingrese el apellido del empleado: ").strip()
 
     if not apellido:
         print("Error: El apellido no puede estar vacío.")
-        return empleados, None
+        return EMPLEADOS, None
     # no permite que se registre un empleado sin apellido/datos vacios al presionar 'enter'.
 
 
@@ -128,10 +131,10 @@ def registro_empleado(empleados):
         "horas_trabajadas": 0
     }
 
-    empleados[id_emp] = nuevo_registro
+    EMPLEADOS[id_emp] = nuevo_registro
     print(f"Empleado {NEGRITA}{ITALICA}{nombre} {apellido}{RESET} registrado exitosamente.")
 
-    return empleados, nuevo_registro
+    return EMPLEADOS, nuevo_registro
           # devuelve el diccionario actualizado con el registro creado
 
 #corre el menu en la consola
