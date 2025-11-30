@@ -34,13 +34,15 @@ def solicitar_str(mensaje):
 
 #------------------------------------#
 # Funcion para limpiar la terminal
-def clear_terminal():
+def limpiar_terminal():
     if os.name == 'nt': ## Si el usuario tiene windows
         os.system('cls')
     else: ## Si se usa mac o linux
         os.system('clear')
 #------------------------------------#
 
+#------------------------------------#
+# FUNCIONES DE EMPLEADOS
 def registrar_empleado(empleados):
     print("\n--- Registrar empleado ---")
     empleado_id = solicitar_str("ID del empleado: ")
@@ -132,6 +134,7 @@ def calcular_pagos(empleados, factor_hora_extra=1.5):
         datos["pago_neto"] = pago_neto
 
     print("Pagos calculados para todos los empleados.")
+#------------------------------------#
 
 #------------------------------------#
 ## FUNCION PRINCIPAL
@@ -142,17 +145,18 @@ def menu():
         "2": "Actualizar salario",
         "3": "Registrar horas",
         "4": "Calcular pago",
-        "5": "Reporte: salario más alto",
-        "6": "Reporte: promedio salarial",
-        "7": "Reporte: LISTA_EMPLEADOS con horas extra",
+        "5": "Reporte: Salario mas alto",
+        "6": "Reporte: Promedio salarial",
+        "7": "Reporte: Empleados con horas extra",
         "8": "Exportar a .csv",
         "0": "Salir"
     }
 
+    print("===============================")
+    print("Módulo de Nómina Simple")
+    print("===============================")    
+
     while True: # bucle infinito hasta que se eliga una opcion del menu
-        print("===============================")
-        print("Módulo de Nómina Simple")
-        print("===============================")    
         print("\n=== MENÚ ===")
         for k, v in OPCIONES.items():
             print(f"{k}. {v}")
@@ -180,6 +184,8 @@ def menu():
                 break
             case "_":
                 print("Por favor ingrese una opcion valida.")
+        
+        limpiar_terminal()
 #------------------------------------#
 
 

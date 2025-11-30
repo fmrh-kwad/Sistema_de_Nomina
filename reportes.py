@@ -1,7 +1,7 @@
 #------------------------------------#
 def salario_mas_alto(empleados):
     print("===============================")
-    print("Reporte: salario/pago más alto")
+    print("Reporte: salario más alto")
     print("===============================")
     if not empleados:
         print("No hay empleados registrados.")
