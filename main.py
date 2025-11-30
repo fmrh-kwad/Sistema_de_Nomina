@@ -35,7 +35,7 @@ def clear_terminal():
     else:
         os.system('clear')
 
-LISTA_EMPLEADOS.holamundo()
+empleados.holamundo()
 reportes.holamundo()
 
 #------------------------------------#
