@@ -69,11 +69,8 @@ def menu():
 #------------------------------------#
 # requisito extra: exportar datos a archivos
 def exportar_datos(EMPLEADOS):
-    for id_emp, datos in EMPLEADOS.items():
-        print(f"{id_emp}: {datos['nombre']} - {datos['salario_hora']} - {datos['horas_trabajadas']}")
-
-    # ni la menor idea de que hace esto o como compronar si funciona
-    # tenemos q terminar el resto de las func para saber pero por ahora no causa problemas.
+    with open("datos_exportados_empleados.txt", 'w') as file: # pone la lista de empleados en un archivo de texto
+        file.write(str(EMPLEADOS)) # en el siguiente formato {'19549': {'nombre': 'pepe', 'salario_hora': 1200.0, 'horas_trabajadas': 0}}
 #------------------------------------#
 
 
