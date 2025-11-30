@@ -1,4 +1,6 @@
 import os
+import empleados
+import reportes
 
 # GRUPO 3: LYA FERRERAS, FRANK RUIZ, STEVEN CRUZ, MAXIMILIAM NOVOA.
 
@@ -33,6 +35,9 @@ def clear_terminal():
     else:
         os.system('clear')
 
+empleados.holamundo()
+reportes.holamundo()
+
 def menu():
     while True: # bucle infinito hasta que se eliga una opcion del menu
         print("===============================")
@@ -44,6 +49,7 @@ def menu():
         selec = input("Elija una opción: ").strip()
 
         match selec:
+            ## POR FAVOR USEN EL ARCHIVO EMPLEADOS.PY PARA ESTAS FUNCIONES
             case "1":
                 registro_empleado(EMPLEADOS)
             #case "2":
@@ -52,6 +58,8 @@ def menu():
             #    registrar_horas(EMPLEADOS)
             #case "4": 
             #    calcular_pago(EMPLEADOS)
+
+            ## POR FAVOR USEN EL ARCHIVO REPORTES.PY PARA ESTAS FUNCIONES
             #case "5":
             #    reporte_salario_mas_alto(EMPLEADOS)
             #case "6":
