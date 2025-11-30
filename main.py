@@ -4,7 +4,7 @@ import reportes
 
 # GRUPO 3: LYA FERRERAS, FRANK RUIZ, STEVEN CRUZ, MAXIMILIAM NOVOA.
 
-EMPLEADOS = {}
+LISTA_EMPLEADOS = {}
 OPCIONES = {
         "1": "Registrar empleado",
         # "2": "Actualizar salario",
@@ -12,7 +12,7 @@ OPCIONES = {
         # "4": "Calcular pago",
         # "5": "Reporte: salario más alto",
         # "6": "Reporte: promedio salarial",
-        # "7": "Reporte: EMPLEADOS con horas extra",
+        # "7": "Reporte: LISTA_EMPLEADOS con horas extra",
         "8": "Exportar datos", #this is an availaible op but it wont work without the other functions de arriba
         "0": "Salir"
     }
@@ -35,9 +35,10 @@ def clear_terminal():
     else:
         os.system('clear')
 
-empleados.holamundo()
+LISTA_EMPLEADOS.holamundo()
 reportes.holamundo()
 
+#------------------------------------#
 def menu():
     while True: # bucle infinito hasta que se eliga una opcion del menu
         print("===============================")
@@ -49,56 +50,41 @@ def menu():
         selec = input("Elija una opción: ").strip()
 
         match selec:
-            ## POR FAVOR USEN EL ARCHIVO EMPLEADOS.PY PARA ESTAS FUNCIONES
+            ## POR FAVOR USEN EL ARCHIVO LISTA_EMPLEADOS.PY PARA ESTAS FUNCIONES
             case "1":
-                registro_empleado(EMPLEADOS)
+                registro_empleado(LISTA_EMPLEADOS)
             #case "2":
-            #    actualizar_salario(EMPLEADOS)
+            #    actualizar_salario(LISTA_EMPLEADOS)
             #case "3":
-            #    registrar_horas(EMPLEADOS)
+            #    registrar_horas(LISTA_EMPLEADOS)
             #case "4": 
-            #    calcular_pago(EMPLEADOS)
+            #    calcular_pago(LISTA_EMPLEADOS)
 
             ## POR FAVOR USEN EL ARCHIVO REPORTES.PY PARA ESTAS FUNCIONES
             #case "5":
-            #    reporte_salario_mas_alto(EMPLEADOS)
+            #    reporte_salario_mas_alto(LISTA_EMPLEADOS)
             #case "6":
-            #    reporte_promedio_salarial(EMPLEADOS)
+            #    reporte_promedio_salarial(LISTA_EMPLEADOS)
             #case "7":
-            #    reporte_EMPLEADOS_con_horas_extras(EMPLEADOS)
+            #    reporte_LISTA_EMPLEADOS_con_horas_extras(LISTA_EMPLEADOS)
             case "8":
-                exportar_datos(EMPLEADOS)
+                exportar_datos(LISTA_EMPLEADOS)
             case "0":
                 print("Saliendo...")
                 break
             case "_":
                 print("Opción inválida. Intente nuevamente.")
+#------------------------------------#
 
 #------------------------------------#
 # requisito extra: exportar datos a archivos
-def exportar_datos(EMPLEADOS):
-    with open("datos_exportados_empleados.txt", 'w') as file: # pone la lista de empleados en un archivo de texto
-        file.write(str(EMPLEADOS)) # en el siguiente formato {'19549': {'nombre': 'pepe', 'salario_hora': 1200.0, 'horas_trabajadas': 0}}
+def exportar_datos(LISTA_EMPLEADOS):
+    with open("datos_exportados_LISTA_EMPLEADOS.txt", 'w') as file: # pone la lista de LISTA_EMPLEADOS en un archivo de texto
+        file.write(str(LISTA_EMPLEADOS)) # en el siguiente formato {'19549': {'nombre': 'pepe', 'salario_hora': 1200.0, 'horas_trabajadas': 0}}
 #------------------------------------#
 
-
- #L: funcion para evitar que una vez el usuario introduzca un caracter que no sea igual a un numero en
-   # el programa con respecto a los campos de salario/horas trabajadas el programa explote
-
-def solicitar_numero(mensaje):
-    while True:  #bucle infinito, aka, keep tryng until a valid character is introduced
-        try:
-            valor = float(input(mensaje).strip())
-            return valor
-        except ValueError:
-            print(f"Error: Por favor ingrese un {NEGRITA}{n}{RESET} válido ! :(")
-
-
-#   ------------------------------------
-
-
-
- # L: funcion para registrar a un empleado: si el empleado ya existe (dentro del diccionario)
+#------------------------------------#
+# L: funcion para registrar a un empleado: si el empleado ya existe (dentro del diccionario)
 # NO permite registrarlo nuevamente y acaba el programa SIN CAMBIOS al diccionario (**None).
 
 def registro_empleado(EMPLEADOS):
@@ -139,7 +125,23 @@ def registro_empleado(EMPLEADOS):
 
     return EMPLEADOS, nuevo_registro
           # devuelve el diccionario actualizado con el registro creado
+#------------------------------------#
 
-#corre el menu en la consola
+#------------------------------------#
+ #L: funcion para evitar que una vez el usuario introduzca un caracter que no sea igual a un numero en
+   # el programa con respecto a los campos de salario/horas trabajadas el programa explote
+
+def solicitar_numero(mensaje):
+    while True:  #bucle infinito, aka, keep tryng until a valid character is introduced
+        try:
+            valor = float(input(mensaje).strip())
+            return valor
+        except ValueError:
+            print(f"Error: Por favor ingrese un {NEGRITA}{n}{RESET} válido ! :(")
+#------------------------------------#
+
+#------------------------------------#
+# Inicia el menu en la consola
 if __name__ == "__main__":
     menu()
+#------------------------------------#
