@@ -1,45 +1,154 @@
 import os
-import empleados
 import reportes
 
 # GRUPO 3: LYA FERRERAS, FRANK RUIZ, STEVEN CRUZ, MAXIMILIAM NOVOA.
 
-LISTA_EMPLEADOS = {}
-OPCIONES = {
-        "1": "Registrar empleado",
-        # "2": "Actualizar salario",
-        # "3": "Registrar horas",
-        # "4": "Calcular pago",
-        # "5": "Reporte: salario más alto",
-        # "6": "Reporte: promedio salarial",
-        # "7": "Reporte: LISTA_EMPLEADOS con horas extra",
-        "8": "Exportar datos", #this is an availaible op but it wont work without the other functions de arriba
-        "0": "Salir"
-    }
-
 # Códigos de colores y formato
-# NOTA: trying this out, might look weird y se puede borrar si fuera necesario y no funcione, es por estetica.
 NEGRITA = '\033[1m'
 ITALICA = '\033[3m'
 RESET = '\033[0m'
 n = 'número'
 
-#   ------------------------------------
+# Funciones para pedir datos del usuario, asegurandose de que se ingresen valores validos para que el programa no explote 🥀
+def solicitar_num(mensaje, minimo = None):
+    # Se asegura de que el usuario ponga un float (numero) valido
+    while True:
+        try:
+            valor = float(input(mensaje))
+            if minimo is not None and valor < minimo:
+                print(f"El numero no puede ser menor que {minimo}.")
+                continue
+            return valor
+        except ValueError:
+            print("Por favor escriba un numero valido")
 
-# funcion para menu simple
-## usar un case-switch es mas eficiente que saco de elifs 🥀🥀🥀
 
-def clear_terminal():
-    if os.name == 'nt':
-        os.system('cls')
-    else:
-        os.system('clear')
-
-empleados.holamundo()
-reportes.holamundo()
+def solicitar_str(mensaje):
+    # Se asegura de que el usuario ingrese una string no vacio
+    while True:
+        valor = input(mensaje).strip()
+        if valor == "":
+            print("El valor no puede estar vacio.")
+        else:
+            return valor
 
 #------------------------------------#
+# Funcion para limpiar la terminal
+def clear_terminal():
+    if os.name == 'nt': ## Si el usuario tiene windows
+        os.system('cls')
+    else: ## Si se usa mac o linux
+        os.system('clear')
+#------------------------------------#
+
+def registrar_empleado(empleados):
+    print("\n--- Registrar empleado ---")
+    empleado_id = solicitar_str("ID del empleado: ")
+
+    if empleado_id in empleados:
+        print("Ya existe un empleado con ese ID.")
+        return
+
+    nombre = solicitar_str("Nombre del empleado: ")
+    salario_hora = solicitar_num("Salario por hora: ", minimo=0)
+
+    empleados[empleado_id] = {
+        "nombre": nombre,
+        "salario_hora": salario_hora,
+        "horas_trabajadas": 0.0,
+        "horas_extra": 0.0,
+        "pago_bruto": 0.0,
+        "deducciones": 0.0,
+        "pago_neto": 0.0,
+    }
+
+    print(f"Empleado {nombre} registrado correctamente.")
+
+
+def actualizar_salario(empleados):
+    print("\n--- Actualizar salario ---")
+    if not empleados:
+        print("No hay empleados registrados.")
+        input("Presione ENTER para regresar")
+        return
+
+    empleado_id = solicitar_str("ID del empleado: ")
+    if empleado_id not in empleados:
+        print("Empleado no encontrado.")
+        return
+
+    nuevo_salario = solicitar_num("Nuevo salario por hora: ", minimo=0)
+    empleados[empleado_id]["salario_hora"] = nuevo_salario
+    print("Salario actualizado correctamente.")
+
+
+def registrar_horas(empleados):
+    print("\n--- Registrar horas ---")
+    if not empleados:
+        print("No hay empleados registrados.")
+        input("Presione ENTER para regresar")
+        return
+
+    empleado_id = solicitar_str("ID del empleado: ")
+    if empleado_id not in empleados:
+        print("Empleado no encontrado.")
+        return
+
+    horas_normales = solicitar_num("Horas trabajadas (normales): ", minimo=0)
+    horas_extra = solicitar_num("Horas extra: ", minimo=0)
+
+    empleados[empleado_id]["horas_trabajadas"] = horas_normales
+    empleados[empleado_id]["horas_extra"] = horas_extra
+
+    print("Horas registradas correctamente.")
+
+
+def calcular_pagos(empleados, factor_hora_extra=1.5):
+    print("\n--- Calcular pagos ---")
+    if not empleados:
+        print("No hay empleados registrados.")
+        input("Presione ENTER para regresar")
+        return
+
+    for emp_id, datos in empleados.items():
+        salario = datos["salario_hora"]
+        h_normales = datos["horas_trabajadas"]
+        h_extra = datos["horas_extra"]
+
+        pago_normales = salario * h_normales
+        pago_extra = salario * factor_hora_extra * h_extra
+        pago_bruto = pago_normales + pago_extra
+
+        # Deducciones simples (opcional)
+        # Ejemplo: 3% AFP y 2% ARS
+        deduccion_afp = pago_bruto * 0.03
+        deduccion_ars = pago_bruto * 0.02
+        deducciones = deduccion_afp + deduccion_ars
+
+        pago_neto = pago_bruto - deducciones
+
+        datos["pago_bruto"] = pago_bruto
+        datos["deducciones"] = deducciones
+        datos["pago_neto"] = pago_neto
+
+    print("Pagos calculados para todos los empleados.")
+
+#------------------------------------#
+## FUNCION PRINCIPAL
 def menu():
+    LISTA_EMPLEADOS = {}
+    OPCIONES = {
+        "1": "Registrar empleado",
+        "2": "Actualizar salario",
+        "3": "Registrar horas",
+        "4": "Calcular pago",
+        "5": "Reporte: salario más alto",
+        "6": "Reporte: promedio salarial",
+        "7": "Reporte: LISTA_EMPLEADOS con horas extra",
+        "8": "Exportar a .csv",
+        "0": "Salir"
+    }
+
     while True: # bucle infinito hasta que se eliga una opcion del menu
         print("===============================")
         print("Módulo de Nómina Simple")
@@ -50,94 +159,31 @@ def menu():
         selec = input("Elija una opción: ").strip()
 
         match selec:
-            ## POR FAVOR USEN EL ARCHIVO LISTA_EMPLEADOS.PY PARA ESTAS FUNCIONES
             case "1":
-                registro_empleado(LISTA_EMPLEADOS)
-            #case "2":
-            #    actualizar_salario(LISTA_EMPLEADOS)
-            #case "3":
-            #    registrar_horas(LISTA_EMPLEADOS)
-            #case "4": 
-            #    calcular_pago(LISTA_EMPLEADOS)
-
-            ## POR FAVOR USEN EL ARCHIVO REPORTES.PY PARA ESTAS FUNCIONES
-            #case "5":
-            #    reporte_salario_mas_alto(LISTA_EMPLEADOS)
-            #case "6":
-            #    reporte_promedio_salarial(LISTA_EMPLEADOS)
-            #case "7":
-            #    reporte_LISTA_EMPLEADOS_con_horas_extras(LISTA_EMPLEADOS)
+                registrar_empleado(LISTA_EMPLEADOS)
+            case "2":
+                actualizar_salario(LISTA_EMPLEADOS)
+            case "3":
+                registrar_horas(LISTA_EMPLEADOS)
+            case "4": 
+                calcular_pagos(LISTA_EMPLEADOS)
+            case "5":
+                reportes.salario_mas_alto(LISTA_EMPLEADOS)
+            case "6":
+                reportes.promedio_salarial(LISTA_EMPLEADOS)
+            case "7":
+                reportes.empleados_con_horas_extra(LISTA_EMPLEADOS)
             case "8":
-                exportar_datos(LISTA_EMPLEADOS)
+                reportes.exportar(LISTA_EMPLEADOS)
             case "0":
                 print("Saliendo...")
                 break
             case "_":
-                print("Opción inválida. Intente nuevamente.")
+                print("Por favor ingrese una opcion valida.")
 #------------------------------------#
 
-#------------------------------------#
-# requisito extra: exportar datos a archivos
-def exportar_datos(LISTA_EMPLEADOS):
-    with open("datos_exportados_LISTA_EMPLEADOS.txt", 'w') as file: # pone la lista de LISTA_EMPLEADOS en un archivo de texto
-        file.write(str(LISTA_EMPLEADOS)) # en el siguiente formato {'19549': {'nombre': 'pepe', 'salario_hora': 1200.0, 'horas_trabajadas': 0}}
-#------------------------------------#
 
-#------------------------------------#
-# L: funcion para registrar a un empleado: si el empleado ya existe (dentro del diccionario)
-# NO permite registrarlo nuevamente y acaba el programa SIN CAMBIOS al diccionario (**None).
-
-def registro_empleado(EMPLEADOS):
-    print("\n--- REGISTRAR EMPLEADO ---")
-    id_emp = input("Ingrese el ID del empleado: ").strip() ## esto no revisa si la id esta vacia o no!! por favor arreglar :(
-
-    if id_emp in EMPLEADOS:
-        print("Error: Ya existe un empleado con ese ID.")
-        return EMPLEADOS, None   # devuelve diccionario sin cambios --None
-
-    nombre = input("Ingrese el nombre del empleado: ").strip()
-
-    if not nombre:
-        print("Error: El nombre no puede estar vacío.")
-
-        return EMPLEADOS, None
-        # no permite que se registre un empleado sin nombre/datos vacios al presionar 'enter'.
-
-    apellido = input("Ingrese el apellido del empleado: ").strip()
-
-    if not apellido:
-        print("Error: El apellido no puede estar vacío.")
-        return EMPLEADOS, None
-    # no permite que se registre un empleado sin apellido/datos vacios al presionar 'enter'.
-
-
-    salario_hora = solicitar_numero("Ingrese el salario por hora: ")
-                   #funcion solicitar numero que no permite caracteres != nums usada.
-
-    nuevo_registro = {
-        "nombre": nombre,
-        "salario_hora": salario_hora,
-        "horas_trabajadas": 0
-    }
-
-    EMPLEADOS[id_emp] = nuevo_registro
-    print(f"Empleado {NEGRITA}{ITALICA}{nombre} {apellido}{RESET} registrado exitosamente.")
-
-    return EMPLEADOS, nuevo_registro
-          # devuelve el diccionario actualizado con el registro creado
-#------------------------------------#
-
-#------------------------------------#
- #L: funcion para evitar que una vez el usuario introduzca un caracter que no sea igual a un numero en
-   # el programa con respecto a los campos de salario/horas trabajadas el programa explote
-
-def solicitar_numero(mensaje):
-    while True:  #bucle infinito, aka, keep tryng until a valid character is introduced
-        try:
-            valor = float(input(mensaje).strip())
-            return valor
-        except ValueError:
-            print(f"Error: Por favor ingrese un {NEGRITA}{n}{RESET} válido ! :(")
+#print(f"Empleado {NEGRITA}{ITALICA}{nombre} {apellido}{RESET} registrado exitosamente.")
 #------------------------------------#
 
 #------------------------------------#
