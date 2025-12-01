@@ -1,13 +1,19 @@
 import os
 import reportes
 
-# GRUPO 3: LYA FERRERAS, FRANK RUIZ, STEVEN CRUZ, MAXIMILIAM NOVOA.
+#------------------------------------#
+# GRUPO 3:
+# LYA FERRERAS
+# FRANK RUIZ
+# STEVEN CRUZ
+# MAXIMILIAM NOVOA
+#------------------------------------#
 
 # Códigos de colores y formato
 NEGRITA = '\033[1m'
 ITALICA = '\033[3m'
 RESET = '\033[0m'
-n = 'número'
+n = 'numero'
 
 # Funciones para pedir datos del usuario, asegurandose de que se ingresen valores validos para que el programa no explote 🥀
 def solicitar_num(mensaje, minimo = None):
@@ -44,11 +50,14 @@ def limpiar_terminal():
 #------------------------------------#
 # FUNCIONES DE EMPLEADOS
 def registrar_empleado(empleados):
-    print("\n--- Registrar empleado ---")
+    print("===============================")
+    print("Registrar empleado")
+    print("===============================")
     empleado_id = solicitar_str("ID del empleado: ")
 
     if empleado_id in empleados:
-        print("Ya existe un empleado con ese ID.")
+        print("\nYa existe un empleado con ese ID.")
+        input("Presione ENTER para regresar")
         return
 
     nombre = solicitar_str("Nombre del empleado: ")
@@ -64,11 +73,15 @@ def registrar_empleado(empleados):
         "pago_neto": 0.0,
     }
 
-    print(f"Empleado {nombre} registrado correctamente.")
+    print(f"\nEmpleado {NEGRITA}{ITALICA}{nombre} {RESET}registrado correctamente.")
+    input("Presione ENTER para regresar")
+
 
 
 def actualizar_salario(empleados):
-    print("\n--- Actualizar salario ---")
+    print("===============================")
+    print("Actualizar salario")
+    print("===============================")
     if not empleados:
         print("No hay empleados registrados.")
         input("Presione ENTER para regresar")
@@ -76,16 +89,21 @@ def actualizar_salario(empleados):
 
     empleado_id = solicitar_str("ID del empleado: ")
     if empleado_id not in empleados:
-        print("Empleado no encontrado.")
+        print("\nEmpleado no encontrado.")
+        input("Presione ENTER para regresar")
         return
 
     nuevo_salario = solicitar_num("Nuevo salario por hora: ", minimo=0)
     empleados[empleado_id]["salario_hora"] = nuevo_salario
-    print("Salario actualizado correctamente.")
+
+    print("\nSalario actualizado correctamente.")
+    input("Presione ENTER para regresar")
 
 
 def registrar_horas(empleados):
-    print("\n--- Registrar horas ---")
+    print("===============================")
+    print("Registrar horas")
+    print("===============================")
     if not empleados:
         print("No hay empleados registrados.")
         input("Presione ENTER para regresar")
@@ -93,7 +111,8 @@ def registrar_horas(empleados):
 
     empleado_id = solicitar_str("ID del empleado: ")
     if empleado_id not in empleados:
-        print("Empleado no encontrado.")
+        print("\nEmpleado no encontrado.")
+        input("Presione ENTER para regresar")
         return
 
     horas_normales = solicitar_num("Horas trabajadas (normales): ", minimo=0)
@@ -102,16 +121,19 @@ def registrar_horas(empleados):
     empleados[empleado_id]["horas_trabajadas"] = horas_normales
     empleados[empleado_id]["horas_extra"] = horas_extra
 
-    print("Horas registradas correctamente.")
+    print("\nHoras registradas correctamente.")
+    input("Presione ENTER para regresar")
 
 
 def calcular_pagos(empleados, factor_hora_extra=1.5):
-    print("\n--- Calcular pagos ---")
+    print("===============================")
+    print("Calcular pagos")
+    print("===============================")
     if not empleados:
         print("No hay empleados registrados.")
         input("Presione ENTER para regresar")
         return
-
+    
     for emp_id, datos in empleados.items():
         salario = datos["salario_hora"]
         h_normales = datos["horas_trabajadas"]
@@ -121,11 +143,12 @@ def calcular_pagos(empleados, factor_hora_extra=1.5):
         pago_extra = salario * factor_hora_extra * h_extra
         pago_bruto = pago_normales + pago_extra
 
-        # Deducciones simples (opcional)
-        # Ejemplo: 3% AFP y 2% ARS
-        deduccion_afp = pago_bruto * 0.03
-        deduccion_ars = pago_bruto * 0.02
-        deducciones = deduccion_afp + deduccion_ars
+        # Deducciones por el seguro y la afp
+        # 3.04% Seguro Familiar de Salud (SFS)
+        # 2.87% de la AFP (Administradora de Fondo de Pensiones)
+        deduccion_afp = pago_bruto * 0.0287
+        deduccion_sfs = pago_bruto * 0.0304
+        deducciones = deduccion_afp + deduccion_sfs
 
         pago_neto = pago_bruto - deducciones
 
@@ -134,6 +157,7 @@ def calcular_pagos(empleados, factor_hora_extra=1.5):
         datos["pago_neto"] = pago_neto
 
     print("Pagos calculados para todos los empleados.")
+    input("\nPresione ENTER para regresar")
 #------------------------------------#
 
 #------------------------------------#
@@ -153,7 +177,7 @@ def menu():
     }
 
     print("===============================")
-    print("Módulo de Nómina Simple")
+    print("Modulo de Nomina Simple")
     print("===============================")    
 
     while True: # bucle infinito hasta que se eliga una opcion del menu
@@ -186,10 +210,6 @@ def menu():
                 print("Por favor ingrese una opcion valida.")
         
         limpiar_terminal()
-#------------------------------------#
-
-
-#print(f"Empleado {NEGRITA}{ITALICA}{nombre} {apellido}{RESET} registrado exitosamente.")
 #------------------------------------#
 
 #------------------------------------#
